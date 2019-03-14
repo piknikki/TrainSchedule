@@ -31,6 +31,9 @@ var destination = "";
 var firstTrainTime = "";
 var frequency = 0;
 var minutesAway = 0;
+var currentTime = moment().format("H:mm a");
+
+$("#currentTime").text(currentTime);
 
 // track trainspotters
 var connectionsRef = database.ref("/connections");
@@ -62,6 +65,8 @@ connectionsRef.on("value", function(snapshot) {
 // on click listener
 $("#addTrain").on("click", function() {
     event.preventDefault();
+    var deleteBtn = $("<input type='checkbox' class='checkbox' data-remove=" + trainName + ">");
+    $(".trainDisplay").prepend(deleteBtn);
 
     // get inputs
     // define the values that fill these variables
@@ -88,31 +93,28 @@ $("#addTrain").on("click", function() {
     $("#firstTrainTime").val("");
     $("#frequency").val("");
 
-
-    // delete button
-    // var deleteBtn = $("<button class='checkbox'>X</button>");
-    // deleteBtn.attr("data-remove", trainName);
-    // trainName.prepend(deleteBtn);
-
-
 })
 
-// $(document).on("click", ".checkbox", function() {
-//     var trainToRemove = $(this).attr("data-remove");
-//     $("#")
-// })
+
+$(document.body).on("click", ".checkbox", function() {
+    var trainToRemove = $(this).attr("data-remove");
+    $("input" + trainToRemove).empty();
+})
+
 
 // firebase listener to update the view
 database.ref().orderByChild("trainName").on("child_added", function(snapshot) {
     var newTrain = snapshot.val();
     console.log(newTrain.trainName);
 
-    $("#trainRow").append("<tr class='well'><td class='trainDisplay'>" + snapshot.val().trainName +
+
+    $("#trainRow").append("<tr class='well'>" + "<td class='trainDisplay'>" + snapshot.val().trainName +
         "</td><td class='destinationDisplay'>" + snapshot.val().destination +
         "</td><td class='firstTrainDisplay'>" + snapshot.val().firstTrainTime +
         "</td><td class='frequencyDisplay'>" + snapshot.val().frequency +
         "</td><td class='nextArrivalDisplay'>" + snapshot.val().nextArrival +
         "</td></tr>");
+
 
 
 }, function(errorObject) {
