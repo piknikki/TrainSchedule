@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Train Schedule App</title>
+
+     <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Bootswatch Styling for Improving the Aesthetics -->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/yeti/bootstrap.min.css">-->
+
+     <!--Font Awesome CSS Icons (For cool glyphicons)-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+     <!--Any extra style stuff-->
+
+     <!--My style stuff-->
+    <link rel="stylesheet" type="text/css" href="assets/style/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/style/style.css">
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Jumbotron Region -->
+    <div class="jumbotron">
+        <h1>Train Schedules</h1>
+        <p>Have a coffee while you spot trains.</p>
+        <h4><span id="connected-trainspotters"></span></h4>
+    </div>
+
+
+    <!-- middle content Region -->
+
+    <!-- current train schedule  -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h3>Current Train Schedule</h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Train Name</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">First Train Time</th>
+                                <th scope="col">Frequency</th>
+                                <th scope="col">Next Arrival</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="trainRow">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <!-- add trains to the schedule  -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h3>Add Train</h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form role="form">
+
+                        <div class="form-group">
+                            <label for="trainName">Train Name</label>
+                            <input type="text" class="form-control" id="trainName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destination">Destination</label>
+                            <input type="text" class="form-control" id="destination">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstTrainTime">First Train Time (HH:mm - military time)</label>
+                            <input type="text" class="form-control" id="firstTrainTime">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="frequency">Frequency (min)</label>
+                            <input type="text" class="form-control" id="frequency">
+                        </div>
+
+                        <button id="addTrain" type="submit" class="btn btn-default">Add a train</button>
+                        <button id="clear-button" type="button" class="btn btn-default">Clear</button>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer Region -->
+    <div class="row">
+        <div class="col-sm-12">
+
+            <!-- Line Break followed by closing -->
+            <hr>
+            <h5 class="text-center">
+                <small>Made with <i class="fa fa-heart"></i> by PikNik</small>
+            </h5>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<!-- JS for Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Code to my Javascript File -->
+<script src="assets/script/app.js"></script>
+
+
+</body>
+</html>
