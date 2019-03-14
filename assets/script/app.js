@@ -75,7 +75,7 @@ $("#addTrain").on("click", function() {
 
     // update firebase
     // put entered values into the database
-    database.ref().set({
+    database.ref().push({
         trainName: trainName,
         destination: destination,
         firstTrainTime: firstTrainTime,
@@ -88,10 +88,24 @@ $("#addTrain").on("click", function() {
     $("#firstTrainTime").val("");
     $("#frequency").val("");
 
+
+    // delete button
+    // var deleteBtn = $("<button class='checkbox'>X</button>");
+    // deleteBtn.attr("data-remove", trainName);
+    // trainName.prepend(deleteBtn);
+
+
 })
 
+// $(document).on("click", ".checkbox", function() {
+//     var trainToRemove = $(this).attr("data-remove");
+//     $("#")
+// })
+
 // firebase listener to update the view
-database.ref().on("value", function(snapshot) {
+database.ref().orderByChild("trainName").on("child_added", function(snapshot) {
+    var newTrain = snapshot.val();
+    console.log(newTrain.trainName);
 
     $("#trainRow").append("<tr class='well'><td class='trainDisplay'>" + snapshot.val().trainName +
         "</td><td class='destinationDisplay'>" + snapshot.val().destination +
@@ -101,20 +115,16 @@ database.ref().on("value", function(snapshot) {
         "</td></tr>");
 
 
-
-
-    //
-    // $(".trainDisplay").html(childSnapshot.val().trainName);
-    // $(".destinationDisplay").html(childSnapshot.val().destination);
-    // $(".firstTrainDisplay").html(childSnapshot.val().firstTrainTime);
-    // $(".frequencyDisplay").html(childSnapshot.val().frequency);
-    // $(".nextArrivalDisplay").html(childSnapshot.val().nextArrival);
-
 }, function(errorObject) {
     console.log("errors handled: " + errorObject.code);
 });
 
 
+// child deleted
+// database.ref().on("child_removed", function() {
+//     var deletedTrain = snapshot.val();
+//
+// })
 
 
 
@@ -125,26 +135,6 @@ database.ref().on("value", function(snapshot) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var trainRow = $("<tr></tr>");
-// trainRow.append($("<td id='trainDisplay'></td>"));
-// trainRow.append($("<td id='destinationDisplay'></td>"));
-// trainRow.append($("<td id='firstTrainDisplay'></td>"));
-// trainRow.append($("<td id='frequencyDisplay'></td>"));
-// trainRow.append($("<td id='nextArrivalDisplay'></td>"));
-// $("#trainRow").append(trainRow);
 
 
 
