@@ -26,12 +26,9 @@ var database = firebase.database();
 console.log("this is working");
 
 
-var trainName = "";
-var destination = "";
-var firstTrainTime = "";
-var frequency = 0;
-var minutesAway = 0;
-var currentTime = moment().format("H:mm a");
+
+var currentTime = moment().format("HH:mm");
+
 
 $("#currentTime").text(currentTime);
 
@@ -65,18 +62,22 @@ connectionsRef.on("value", function(snapshot) {
 // on click listener
 $("#addTrain").on("click", function() {
     event.preventDefault();
-    var deleteBtn = $("<input type='checkbox' class='checkbox' data-remove=" + trainName + ">");
-    $(".trainDisplay").prepend(deleteBtn);
 
     // get inputs
     // define the values that fill these variables
-    trainName = $("#trainName").val().trim();
-    destination = $("#destination").val().trim();
-    firstTrainTime = $("#firstTrainTime").val().trim();
-    frequency = $("#frequency").val().trim();
+    var trainName = $("#trainName").val().trim();
+    var destination = $("#destination").val().trim();
+    var firstTrainTime = $("#firstTrainTime").val().trim();
+    var frequency = parseInt($("#frequency").val().trim());
 
     // do some math for minutes away
-    // next arrival - current time
+    var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "day");
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    var tRemainder = diffTime % frequency;
+    var minutesAway = frequency - tRemainder;
+    var nextTrain = moment().add(minutesAway, "minutes");
+    var nextArrival = moment(nextTrain).format("hh:mm");
+
 
     // update firebase
     // put entered values into the database
@@ -85,48 +86,35 @@ $("#addTrain").on("click", function() {
         destination: destination,
         firstTrainTime: firstTrainTime,
         frequency: frequency,
-        nextArrival: minutesAway
+        nextArrival: nextArrival
     });
 
-    $("#trainName").val("");
-    $("#destination").val("");
-    $("#firstTrainTime").val("");
-    $("#frequency").val("");
+    // clear out all the inputs
+    $("input").val("");
 
 })
 
-
-$(document.body).on("click", ".checkbox", function() {
-    var trainToRemove = $(this).attr("data-remove");
-    $("input" + trainToRemove).empty();
-})
 
 
 // firebase listener to update the view
 database.ref().orderByChild("trainName").on("child_added", function(snapshot) {
     var newTrain = snapshot.val();
-    console.log(newTrain.trainName);
+    console.log("next arrival time: " + newTrain.nextArrival);
 
-
-    $("#trainRow").append("<tr class='well'>" + "<td class='trainDisplay'>" + snapshot.val().trainName +
-        "</td><td class='destinationDisplay'>" + snapshot.val().destination +
-        "</td><td class='firstTrainDisplay'>" + snapshot.val().firstTrainTime +
-        "</td><td class='frequencyDisplay'>" + snapshot.val().frequency +
-        "</td><td class='nextArrivalDisplay'>" + snapshot.val().nextArrival +
-        "</td></tr>");
-
+    if (newTrain.trainName !== undefined) {
+        $("#trainRow").append("<tr class='well'>" + "<td class='trainDisplay'>" + snapshot.val().trainName +
+            "</td><td class='destinationDisplay'>" + snapshot.val().destination +
+            "</td><td class='firstTrainDisplay'>" + snapshot.val().firstTrainTime +
+            "</td><td class='frequencyDisplay'>" + snapshot.val().frequency +
+            "</td><td class='nextArrivalDisplay'>" + snapshot.val().nextArrival +
+            "</td></tr>");
+    }
 
 
 }, function(errorObject) {
     console.log("errors handled: " + errorObject.code);
 });
 
-
-// child deleted
-// database.ref().on("child_removed", function() {
-//     var deletedTrain = snapshot.val();
-//
-// })
 
 
 
