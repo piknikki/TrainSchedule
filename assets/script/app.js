@@ -23,12 +23,7 @@ firebase.initializeApp(config);
 
 // Create a variable to reference the database
 var database = firebase.database();
-console.log("this is working");
-
-
-
 var currentTime = moment().format("HH:mm");
-
 
 $("#currentTime").text(currentTime);
 
