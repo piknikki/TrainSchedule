@@ -1,4 +1,14 @@
 # TrainSchedule
-Train Schedule
 
-This app will provide train schedules in military time for a requested destination.  Information displayed will include the train's name and frequency, as well as the arrival time (in relationship to the current time (how long you'll have to wait until it gets to your location)).
+# Overview
+The user enters basic train information, including name, destination, first train time, and frequency of trains in minutes. The app will then store that information in Firebase, and retrieve it and display it in the table.  Additional information displayed will be the next arrival time of that train, using moment.js to make that calculation.
+
+# Technologies Used
+* HTML
+* CSS Bootstrap
+* Javascript
+* jQuery
+* Firebase
+
+# Link to live app
+http://www.purplepants.io/TrainSchedule/
