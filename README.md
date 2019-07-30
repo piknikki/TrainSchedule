@@ -11,4 +11,4 @@ The user enters basic train information, including name, destination, first trai
 * Firebase
 
 # Link to live app
-http://www.purplepants.io/TrainSchedule/
+http://www.nikkipetersen.dev/TrainSchedule/
